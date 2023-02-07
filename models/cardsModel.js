@@ -70,8 +70,7 @@ class Card {
                         msg: "That name already exists"
                     }]
                 };
-            let [result] =
-                await pool.query(`Insert into cards (crd_name, crd_img_url, crd_lore, crd_description, crd_level, crd_cost, crd_timeout, crd_max_usage, crd_type) values (?,?,?,?,?,?,?,?,?)`, [newCard.name, newCard.url, newCard.lore, newCard.description, newCard.level, newCard.cost, newCard.timeout, newCard.maxUsage, newCard.type]);
+            let [result] = await pool.query(`Insert into cards (crd_name, crd_img_url, crd_lore, crd_description, crd_level, crd_cost, crd_timeout, crd_max_usage, crd_type) values (?,?,?,?,?,?,?,?,?)`, [newCard.name, newCard.url, newCard.lore, newCard.description, newCard.level, newCard.cost, newCard.timeout, newCard.maxUsage, newCard.type]);
             return { status: 200, result: result };
         } catch (err) {
             console.log(err);
