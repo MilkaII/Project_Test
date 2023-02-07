@@ -17,6 +17,7 @@ class Card {
         this.maxUsage = maxUsage;
         this.type = type;
     }
+
     static async getAll() {
         try {
             let result = [];
@@ -30,6 +31,7 @@ class Card {
             return {status: 500, result: err };
             }
     }
+
     static async getById(id) {
         try {
             let [dbCards,fields] = 
@@ -43,7 +45,31 @@ class Card {
             console.log(err);
             return {status: 500, result: err };
         }
-    }        
+    }
+
+    static async save(newCard) {
+        try {
+            let [dbCards, fields] =
+                await pool.query("Select * from cards where crd_name=?", [newCard.name]);
+            if (dbCards.length)
+                return {
+                    status: 400, result: [{
+                        location: "body", param: "name",
+                        msg: "That name already exists"
+                    }]
+                };
+            let [result] =
+                await pool.query(`Insert into cards (crd_name, crd_img_url, crd_lore, 
+                crd_description, crd_level, crd_cost, crd_timeout, crd_max_usage, crd_type)
+                values (?,?,?,?,?,?,?,?,?)`, [newCard.name, newCard.url, newCard.lore,
+                newCard.description, newCard.level, newCard.cost, newCard.timeout,
+                newCard.maxUsage, newCard.type]);
+            return { status: 200, result: result };
+        } catch (err) {
+            console.log(err);
+            return { status: 500, result: err };
+        }
+    }
 }
           
 module.exports = Card;
