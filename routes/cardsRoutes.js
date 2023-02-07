@@ -21,6 +21,9 @@ router.get('/filter', async function (req, res, next) {
         if (req.query.typeId) {
             let result = await Card.filterByType(req.query.typeId);
             res.status(result.status).send(result.result);
+        } else if (req.query.descContains) {
+            let result = await Card.filterByLoreOrDescription(req.query.descContains);
+            res.status(result.status).send(result.result);
         } else {        
             res.status(400).send({ msg: "No filter provided" });
         }
