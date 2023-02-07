@@ -9,6 +9,12 @@ class User {
     static async getAll() {
         try {
             let result = [];
+            /* other ways of doing for
+            for (let i in users)
+                let user = users[i]
+            for (let i = 0; i < users.length; i++)
+                let user = users[i]
+            */
             for(let user of users ){
                 result.push(new User(user.id,user.name,user.email));
             }
