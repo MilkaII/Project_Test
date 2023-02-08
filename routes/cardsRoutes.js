@@ -77,4 +77,15 @@ router.put("/", ...cardValidations, async function (req, res, next) {
     }
 });
 
+router.delete('/:id', async function (req, res, next) {
+    try {
+        console.log("Delete card with id " + req.params.id);
+        let result = await Card.deleteById(req.params.id);
+        res.status(result.status).send(result.result);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+});
+
 module.exports = router;
